@@ -53,8 +53,8 @@ const WordTyping = () => {
     if (!paused) {
       const currentWord = words[currentIndex];
       const wordLength = currentWord ? currentWord.length : 0;
-      const wordHasComma = wordLength > 0 ? currentWord.includes(",") : false;
-      const wordHasDot = wordLength > 0 ? currentWord.includes(".") : false;
+      const wordHasComma = wordLength > 0 ? /[,;:-]/.test(currentWord) : false;
+      const wordHasDot = wordLength > 0 ? /[.?!]/.test(currentWord) : false;
       const newSpeed = wordLength > 0 ? wordLength * speed : 100; // Adjust the formula as needed
 
       let finalSpeed = newSpeed;
@@ -155,25 +155,25 @@ const WordTyping = () => {
         </div>
         <div className="w-25">
           <button
-            className="btn btn-success me-2"
+            className="btn btn-dark me-2"
             onClick={() => setPaused(!paused)}
           >
             {paused ? "Play" : "Pause"}
           </button>
           <button
-            className="btn btn-success me-2"
+            className="btn btn-dark me-2"
             onClick={handleGoBack5}
           >
             -5
           </button>
           <button
-            className="btn btn-success me-2"
+            className="btn btn-dark me-2"
             onClick={handleGoForward5}
           >
             +5
           </button>
           <button
-            className="btn btn-success me-2"
+            className="btn btn-dark me-2"
             onClick={handleRestart}
           >
             Restart
