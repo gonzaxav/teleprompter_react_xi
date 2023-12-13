@@ -18,3 +18,13 @@
   font-size: 4em; /* Adjust font size based on your preference */
   color: rgb(69, 69, 69);
 }
+
+.highlighted-word-ba-period {
+  font-size: 4em; /* Adjust font size based on your preference */
+  color: rgb(85, 23, 23);
+}
+
+.highlighted-word-ba-coma {
+  font-size: 4em; /* Adjust font size based on your preference */
+  color: rgb(23, 38, 85);
+}

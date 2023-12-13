@@ -9,10 +9,13 @@ const WordTyping = () => {
   const [comma, setComma] = useState(500); // Default speed in milliseconds
   const [period, setPeriod] = useState(700); // Default speed in milliseconds
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused] = useState(true);
 
   const [computedWidthL, setComputedWidthL] = useState(0);
-  const [computedWidthR, setComputedWidthR] = useState(0);
+  const [computedWidthR1, setComputedWidthR1] = useState(0);
+  const [computedWidthR2, setComputedWidthR2] = useState(0);
+  const [computedWidthR3, setComputedWidthR3] = useState(0);
+  const [computedWidthR4, setComputedWidthR4] = useState(0);
 
   useEffect(() => {
     setWords(inputText.split(/[\s\n-]+/));
@@ -26,10 +29,25 @@ const WordTyping = () => {
       const width = elementL.offsetWidth;
       setComputedWidthL(parseInt(width));
     }
-    const elementR = document.getElementById("rightElement");
-    if (elementR) {
-      const width = elementR.offsetWidth;
-      setComputedWidthR(parseInt(width));
+    const elementR1 = document.getElementById("rightElement1");
+    if (elementR1) {
+      const width = elementR1.offsetWidth;
+      setComputedWidthR1(parseInt(width));
+    }
+    const elementR2 = document.getElementById("rightElement2");
+    if (elementR2) {
+      const width = elementR2.offsetWidth;
+      setComputedWidthR2(parseInt(width));
+    }
+    const elementR3 = document.getElementById("rightElement3");
+    if (elementR3) {
+      const width = elementR3.offsetWidth;
+      setComputedWidthR3(parseInt(width));
+    }
+    const elementR4 = document.getElementById("rightElement4");
+    if (elementR4) {
+      const width = elementR4.offsetWidth;
+      setComputedWidthR4(parseInt(width));
     }
 
     if (!paused) {
@@ -73,6 +91,10 @@ const WordTyping = () => {
   };
   const handleGoForward5 = (e) => {
     setCurrentIndex(currentIndex + 5 >= words.length ? words.length-1 : currentIndex + 5);
+  };
+  const handleRestart = (e) => {
+    setCurrentIndex(0);
+    setPaused(true);
   };
 
   return (
@@ -133,22 +155,28 @@ const WordTyping = () => {
         </div>
         <div className="w-25">
           <button
-            className="btn btn-success"
+            className="btn btn-success me-2"
             onClick={() => setPaused(!paused)}
           >
-            Pause
+            {paused ? "Play" : "Pause"}
           </button>
           <button
-            className="btn btn-success"
+            className="btn btn-success me-2"
             onClick={handleGoBack5}
           >
             -5
           </button>
           <button
-            className="btn btn-success"
+            className="btn btn-success me-2"
             onClick={handleGoForward5}
           >
             +5
+          </button>
+          <button
+            className="btn btn-success me-2"
+            onClick={handleRestart}
+          >
+            Restart
           </button>
         </div>
       </div>
@@ -162,13 +190,38 @@ const WordTyping = () => {
             {words[currentIndex - 1]}
           </span>
           <span className="highlighted-word mx-4">{words[currentIndex]}</span>
+          {words[currentIndex + 1] &&
           <span
-            className="highlighted-word-ba mx-4 position-absolute afterText"
-            style={{ right: `-${computedWidthR + 25}px` }}
-            id="rightElement"
+            className={`${/[.?!]/.test(words[currentIndex + 1]) ? "highlighted-word-ba-period" : /[,;:-]/.test(words[currentIndex + 1]) ? "highlighted-word-ba-coma" : "highlighted-word-ba"} mx-4 position-absolute afterText`}
+            style={{ right: `-${computedWidthR1 + 25}px` }}
+            id="rightElement1"
           >
             {words[currentIndex + 1]}
-          </span>
+          </span>}
+          {words[currentIndex + 2] && 
+          <span
+            className={`${/[.?!]/.test(words[currentIndex + 2]) ? "highlighted-word-ba-period" : /[,;:-]/.test(words[currentIndex + 2]) ? "highlighted-word-ba-coma" : "highlighted-word-ba"} mx-4 position-absolute afterText`}
+            style={{ right: `-${computedWidthR1 + computedWidthR2 + 50}px` }}
+            id="rightElement2"
+          >
+            {words[currentIndex + 2]}
+          </span>}
+          {words[currentIndex + 3] && 
+          <span
+            className={`${/[.?!]/.test(words[currentIndex + 3]) ? "highlighted-word-ba-period" : /[,;:-]/.test(words[currentIndex + 3]) ? "highlighted-word-ba-coma" : "highlighted-word-ba"} mx-4 position-absolute afterText`}
+            style={{ right: `-${computedWidthR1 + computedWidthR2 + computedWidthR3 + 75}px` }}
+            id="rightElement3"
+          >
+            {words[currentIndex + 3]}
+          </span>}
+          {words[currentIndex + 4] && 
+          <span
+            className={`${/[.?!]/.test(words[currentIndex + 4]) ? "highlighted-word-ba-period" : /[,;:-]/.test(words[currentIndex + 4]) ? "highlighted-word-ba-coma" : "highlighted-word-ba"} mx-4 position-absolute afterText`}
+            style={{ right: `-${computedWidthR1 + computedWidthR2 + computedWidthR3 + computedWidthR4 + 100}px` }}
+            id="rightElement4"
+          >
+            {words[currentIndex + 4]}
+          </span>}
         </div>
       </div>
     </div>
