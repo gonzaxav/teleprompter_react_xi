@@ -1,6 +1,6 @@
 // src/components/WordTyping.js
 import React, { useState, useEffect } from "react";
-import "./WordTyping.css"; // Import the stylesheet
+import "./TelepromptSentence.css"; // Import the stylesheet
 
 const WordTyping = () => {
   const [inputText, setInputText] = useState("");

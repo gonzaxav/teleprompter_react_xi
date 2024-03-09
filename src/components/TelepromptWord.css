@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.highlight-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlighted-word {
+  font-size: 4em; /* Adjust font size based on your preference */
+}
+
+.highlighted-word-ba {
+  font-size: 4em; /* Adjust font size based on your preference */
+  color: rgb(69, 69, 69);
+}
+
+.highlighted-word-ba-period {
+  font-size: 4em; /* Adjust font size based on your preference */
+  color: rgb(85, 23, 23);
+}
+
+.highlighted-word-ba-coma {
+  font-size: 4em; /* Adjust font size based on your preference */
+  color: rgb(23, 38, 85);
+}
+
+textarea.form-control, textarea.form-control:focus, input.form-control, input.form-control:focus{
+  color: white;
+  background-color: black;
+}

@@ -1,11 +1,11 @@
 import React from "react";
-import WordTyping from "./components/WordTyping";
+import TelepromptSentence from "./components/TelepromptSentence";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <WordTyping />
+      <TelepromptSentence />
     </div>
   );
 }
