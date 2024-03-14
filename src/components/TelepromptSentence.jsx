@@ -17,18 +17,22 @@ const WordTyping = () => {
   const [isAnimatingRight, setIsAnimatingRight] = useState(false);
 
   const handleMouseLeftArea = () => {
+    if (currentIndex - 1 >= 0){
+      setIsAnimatingLeft(true); // Start the animation
+      setTimeout(() => {
+        setIsAnimatingLeft(false); // Stop the animation after 1 second
+      }, 300);
+    }
     handleGoBack1();
-    setIsAnimatingLeft(true); // Start the animation
-    setTimeout(() => {
-      setIsAnimatingLeft(false); // Stop the animation after 1 second
-    }, 300);
   };
   const handleMouseRightArea = () => {
+    if (currentIndex + 1 < sentences.length){
+      setIsAnimatingRight(true); // Start the animation
+      setTimeout(() => {
+        setIsAnimatingRight(false); // Stop the animation after 1 second
+      }, 300);
+    }
     handleGoForward1();
-    setIsAnimatingRight(true); // Start the animation
-    setTimeout(() => {
-      setIsAnimatingRight(false); // Stop the animation after 1 second
-    }, 300);
   };
 
   const handleBgColorChange = (event) => {
