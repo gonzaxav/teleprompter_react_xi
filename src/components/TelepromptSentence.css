@@ -34,3 +34,45 @@ input.form-control:focus {
   color: white;
   background-color: black;
 }
+
+.center-text {
+  font-size: calc(100% + 1vw);
+}
+
+.mouseHoverBg{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseAnimation {
+  0% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.play-animation {
+  animation: pulseAnimation 300ms; /* Apply pulse animation */
+  animation-play-state: running; /* Ensure animation is playing */
+}
+
+@keyframes pulseAnimationbg {
+  0% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  90% {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.play-animation-bg {
+  animation: pulseAnimationbg 300ms; /* Apply pulse animation */
+  animation-play-state: running; /* Ensure animation is playing */
+}
