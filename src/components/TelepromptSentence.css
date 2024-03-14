@@ -8,12 +8,8 @@ body {
   overflow: hidden;
 }
 
-section.graybg{
+section.graybg {
   background-color: rgb(69, 69, 69);
-}
-
-div.container.blackbg{
-  background-color: black;
 }
 
 .highlight-container {
@@ -24,24 +20,17 @@ div.container.blackbg{
 
 .highlighted-word {
   font-size: 4em; /* Adjust font size based on your preference */
+  font-weight: bold;
 }
 
 .highlighted-word-ba {
   font-size: 4em; /* Adjust font size based on your preference */
-  color: rgb(69, 69, 69);
 }
 
-.highlighted-word-ba-period {
-  font-size: 4em; /* Adjust font size based on your preference */
-  color: rgb(85, 23, 23);
-}
-
-.highlighted-word-ba-coma {
-  font-size: 4em; /* Adjust font size based on your preference */
-  color: rgb(23, 38, 85);
-}
-
-textarea.form-control, textarea.form-control:focus, input.form-control, input.form-control:focus{
+textarea.form-control,
+textarea.form-control:focus,
+input.form-control,
+input.form-control:focus {
   color: white;
   background-color: black;
 }
