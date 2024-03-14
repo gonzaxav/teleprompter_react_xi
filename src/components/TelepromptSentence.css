@@ -39,7 +39,7 @@ input.form-control:focus {
   font-size: calc(100% + 1vw);
 }
 
-.mouseHoverBg{
+.mouseHoverBg {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -65,7 +65,7 @@ input.form-control:focus {
     background-color: rgba(0, 0, 0, 0.1);
   }
   90% {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
   }
   100% {
     background-color: rgba(0, 0, 0, 0.1);

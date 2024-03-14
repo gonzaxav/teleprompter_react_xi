@@ -17,7 +17,7 @@ const WordTyping = () => {
   const [isAnimatingRight, setIsAnimatingRight] = useState(false);
 
   const handleMouseLeftArea = () => {
-    if (currentIndex - 1 >= 0){
+    if (currentIndex - 1 >= 0) {
       setIsAnimatingLeft(true); // Start the animation
       setTimeout(() => {
         setIsAnimatingLeft(false); // Stop the animation after 1 second
@@ -26,7 +26,7 @@ const WordTyping = () => {
     handleGoBack1();
   };
   const handleMouseRightArea = () => {
-    if (currentIndex + 1 < sentences.length){
+    if (currentIndex + 1 < sentences.length) {
       setIsAnimatingRight(true); // Start the animation
       setTimeout(() => {
         setIsAnimatingRight(false); // Stop the animation after 1 second
@@ -99,11 +99,12 @@ const WordTyping = () => {
               isAnimatingLeft ? "play-animation-bg" : ""
             }`}
           >
-            <div 
-            className={`col-2 g-0 center-text h-100 w-100 d-flex justify-content-center align-items-center ${
-              isAnimatingLeft ? "play-animation" : ""
-            }`}
-            onMouseEnter={handleMouseLeftArea}>
+            <div
+              className={`col-2 g-0 center-text h-100 w-100 d-flex justify-content-center align-items-center ${
+                isAnimatingLeft ? "play-animation" : ""
+              }`}
+              onMouseEnter={handleMouseLeftArea}
+            >
               <div className="center-text">Previous</div>
             </div>
           </div>
@@ -198,11 +199,12 @@ const WordTyping = () => {
               isAnimatingRight ? "play-animation-bg" : ""
             }`}
           >
-            <div 
-            className={`col-2 g-0 center-text h-100 w-100 d-flex justify-content-center align-items-center ${
-              isAnimatingRight ? "play-animation" : ""
-            }`}
-            onMouseEnter={handleMouseRightArea}>
+            <div
+              className={`col-2 g-0 center-text h-100 w-100 d-flex justify-content-center align-items-center ${
+                isAnimatingRight ? "play-animation" : ""
+              }`}
+              onMouseEnter={handleMouseRightArea}
+            >
               <div className="center-text">Next</div>
             </div>
           </div>
