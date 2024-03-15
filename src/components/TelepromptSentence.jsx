@@ -54,7 +54,7 @@ const WordTyping = () => {
       inputText
         .replace(/\.\.\./g, ellipsisPlaceholder)
         .replace(/[\n]{2,}/g, "\n")
-        .replace(/([?.,!])(?![\n])/g, "$1\n")
+        .replace(/([?.,!])(?!["“”])(?![\n])/g, "$1\n")
         .replace(/###ELLIPSIS###/g, "...")
         .split(/[\n]+/)
         .filter(Boolean)
