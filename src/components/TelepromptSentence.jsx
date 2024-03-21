@@ -162,7 +162,7 @@ const WordTyping = () => {
       <div className="container-fluid vh-100">
         <div className="row vh-100">
           <div
-            className={`col-2 g-0 mouseHoverBg ${
+            className={`col-2 g-0 mouseHoverBg h-100 ${
               isAnimatingLeft ? "play-animation-bg" : ""
             }`}
           >
@@ -303,7 +303,7 @@ const WordTyping = () => {
             </div>
           </div>
           <div
-            className={`col-2 g-0 mouseHoverBg ${
+            className={`col-2 g-0 mouseHoverBg h-100 ${
               isAnimatingRight ? "play-animation-bg" : ""
             }`}
           >
