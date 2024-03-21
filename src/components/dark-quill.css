@@ -1,0 +1,33 @@
+/* dark-quill.css */
+.ql-snow {
+  background-color: #222; /* Dark background color */
+  color: #ddd; /* Light text color */
+}
+
+.ql-snow .ql-toolbar button,
+.ql-snow .ql-toolbar a {
+  color: #ddd; /* Light button text color */
+}
+
+.ql-snow .ql-toolbar button:hover,
+.ql-snow .ql-toolbar a:hover {
+  color: #fff; /* White hover color for buttons */
+}
+
+.ql-snow .ql-picker-label {
+  color: #ddd; /* Light color for picker labels */
+}
+
+.ql-snow .ql-picker-options .ql-picker-item:hover {
+  background-color: #333; /* Dark hover color for picker options */
+  color: #fff; /* White text for hovered picker options */
+}
+
+/* Adjust these styles as needed for specific elements */
+.ql-snow .ql-editor .ql-line:first-child {
+  border-top: 0; /* Remove top border from first line */
+}
+
+.ql-snow .ql-editor p {
+  margin-bottom: 5px; /* Add some margin between paragraphs */
+}

@@ -2,10 +2,21 @@
 import React, { useState, useEffect } from "react";
 import "./TelepromptSentence.css"; // Import the stylesheet
 
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "./dark-quill.css";
+
+import DOMPurify from "dompurify";
+
 const WordTyping = () => {
   const [inputText, setInputText] = useState("");
   const [sentences, setSentences] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [textToDisplay, setTextToDisplay] = useState("");
+  const [nextTextToDisplay, setNextTextToDisplay] = useState("");
+
+  const [displayingInput, setDisplayingInput] = useState(true);
 
   const [bgSelectedColor, setBgSelectedColor] = useState("#808080");
   const [textSelectedColor, setTextSelectedColor] = useState("#ffffff");
@@ -15,6 +26,10 @@ const WordTyping = () => {
 
   const [isAnimatingLeft, setIsAnimatingLeft] = useState(false);
   const [isAnimatingRight, setIsAnimatingRight] = useState(false);
+
+  const handleMinimizeInput = () => {
+    setDisplayingInput(!displayingInput);
+  };
 
   const handleMouseLeftArea = () => {
     if (currentIndex - 1 >= 0) {
@@ -49,29 +64,81 @@ const WordTyping = () => {
   };
 
   useEffect(() => {
+    let tempInputText = inputText.replace(/<\/p>\s*<p[^>]*>/g, "\n");
+    tempInputText = DOMPurify.sanitize(tempInputText, {
+      ALLOWED_TAGS: ["i", "em", "b", "strong", "u", "br", "\n"],
+      ALLOWED_ATTR: ["style"],
+    });
+
     const ellipsisPlaceholder = "###ELLIPSIS###";
+
     setSentences(
-      inputText
+      tempInputText
         .replace(/\.\.\./g, ellipsisPlaceholder)
-        .replace(/[\n]{2,}/g, "\n")
-        .replace(/([?.,!])(?!["“”])(?![\n])/g, "$1\n")
+        .replace(/\s+(<\/(i|em|b|strong|u)>)/g, "$1 ")
+        .replace(/(<(i|em|b|strong|u)>)\s+/g, " $1")
+        .replace(/([?.,!])(?!["“”\n<])/g, "$1\n")
+        .replace(/\s+\n/g, "\n")
+        .replace(/([?.,!])(<\/(i|em|b|strong|u)>)(?![\n])/g, "$1$2\n")
         .replace(/###ELLIPSIS###/g, "...")
+        .replace(/(?:\n|<br>){2,}/g, "\n")
         .split(/[\n]+/)
         .filter(Boolean)
-
-      /*.replace(/\n/g, "")
-        .replace(/\.\.\.\./g, ellipsisPlaceholder + "\n")
-        .replace(/\.\.\./g, ellipsisPlaceholder)
-        .replace(/([?.,!])/g, "$1\n")
-        .replace(/###ELLIPSIS###/g, "...")
-        .split(/[\n]+/)
-        .filter(Boolean)*/
     );
     setCurrentIndex(0);
   }, [inputText]);
 
-  const handleTextInputChange = (e) => {
-    setInputText(e.target.value);
+  useEffect(() => {
+    //current text
+    const newText = sentences
+      .map((sentence, index) => {
+        let modifiedSentence = sentence;
+        const hasClosingTag = /<\/(i|em|b|strong|u)>/.test(sentence);
+
+        if (hasClosingTag) {
+          modifiedSentence = modifiedSentence.replace(
+            /<\/(i|em|b|strong|u)>/,
+            `$&</span><span key=${index} style="display: ${
+              index === currentIndex ? "inline" : "none"
+            };">`
+          );
+        }
+
+        return `<span key=${index} style="display: ${
+          index === currentIndex ? "inline" : "none"
+        };">${modifiedSentence}</span>`;
+      })
+      .join("");
+
+    setTextToDisplay(newText);
+
+    //next text
+    const newNextText = sentences
+      .slice(1)
+      .map((sentence, index) => {
+        let modifiedSentence = sentence;
+        const hasClosingTag = /<\/(i|em|b|strong|u)>/.test(sentence);
+
+        if (hasClosingTag) {
+          modifiedSentence = modifiedSentence.replace(
+            /<\/(i|em|b|strong|u)>/,
+            `$&</span><span key=${index} style="display: ${
+              index === currentIndex ? "inline" : "none"
+            };">`
+          );
+        }
+
+        return `<span key=${index} style="display: ${
+          index === currentIndex ? "inline" : "none"
+        };">${modifiedSentence}</span>`;
+      })
+      .join("");
+
+    setNextTextToDisplay(newNextText);
+  }, [sentences, currentIndex]);
+
+  const handleTextInputChange = (value) => {
+    setInputText(value);
   };
   const handleGoBack1 = (e) => {
     setCurrentIndex(currentIndex - 1 < 0 ? 0 : currentIndex - 1);
@@ -112,55 +179,86 @@ const WordTyping = () => {
             <div className="row g-0">
               <div className="col d-flex flex-column pb-3 g-0">
                 <h1 className="w-100 text-center m-0">Teleprompter App</h1>
-                <div className="m-0">
-                  <textarea
-                    className="form-control"
-                    id="textToRead"
-                    rows="3"
-                    placeholder="Type a paragraph..."
+                <div
+                  className="m-0"
+                  style={{ display: displayingInput ? "block" : "none" }}
+                >
+                  <ReactQuill
+                    theme="snow"
                     value={inputText}
                     onChange={handleTextInputChange}
-                    data-bs-theme="dark"
                   />
                 </div>
-                <div className="m-0 d-flex gap-3">
-                  <div className="w-100 d-flex justify-content-center gap-3 mt-2">
-                    <button className="btn btn-dark" onClick={handleRestart}>
-                      <i className="bi bi-skip-backward fs-3"></i>
+                <div className="m-0 d-flex flex-column">
+                  <div className="w-100 d-flex justify-content-center mt-2">
+                    <button
+                      className="btn btn-dark"
+                      onClick={handleMinimizeInput}
+                    >
+                      {displayingInput ? (
+                        <i class="bi bi-arrows-collapse fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                      ) : (
+                        <i class="bi bi-arrows-expand fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                      )}
                     </button>
-                    <button className="btn btn-dark" onClick={handleGoBack1}>
-                      <i className="bi bi-caret-left fs-3"></i>
+                  </div>
+                  <div className="w-100 d-flex flex-row justify-content-center gap-2 mt-2">
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleRestart}
+                    >
+                      <i className="bi bi-skip-backward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                     </button>
-                    <button className="btn btn-dark" onClick={handleGoForward1}>
-                      <i className="bi bi-caret-right fs-3"></i>
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleGoBack1}
+                    >
+                      <i className="bi bi-caret-left fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                     </button>
-                    <button className="btn btn-dark" onClick={handleGotolast}>
-                      <i className="bi bi-skip-forward fs-3"></i>
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleGoForward1}
+                    >
+                      <i className="bi bi-caret-right fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                     </button>
-                    <input
-                      className="h-100"
-                      type="color"
-                      value={bgSelectedColor}
-                      onChange={handleBgColorChange}
-                    />
-                    <input
-                      className="h-100"
-                      type="color"
-                      value={textSelectedColor}
-                      onChange={handleTextColorChange}
-                    />
-                    <input
-                      className="h-100"
-                      type="color"
-                      value={textBorderSelectedColor}
-                      onChange={handleTextBorderColorChange}
-                    />
-                    <input
-                      className="h-100"
-                      type="color"
-                      value={nextTextSelectedColor}
-                      onChange={handleNextTextColorChange}
-                    />
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleGotolast}
+                    >
+                      <i className="bi bi-skip-forward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                    </button>
+                    <button className="btn btn-dark btn-icons p-0">
+                      <input
+                        className="btn-icons-fill"
+                        type="color"
+                        value={bgSelectedColor}
+                        onChange={handleBgColorChange}
+                      />
+                    </button>
+                    <button className="btn btn-dark btn-icons p-0">
+                      <input
+                        className="btn-icons-fill"
+                        type="color"
+                        value={textSelectedColor}
+                        onChange={handleTextColorChange}
+                      />
+                    </button>
+                    <button className="btn btn-dark btn-icons p-0">
+                      <input
+                        className="btn-icons-fill"
+                        type="color"
+                        value={textBorderSelectedColor}
+                        onChange={handleTextBorderColorChange}
+                      />
+                    </button>
+                    <button className="btn btn-dark btn-icons p-0">
+                      <input
+                        className="btn-icons-fill"
+                        type="color"
+                        value={nextTextSelectedColor}
+                        onChange={handleNextTextColorChange}
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -173,20 +271,30 @@ const WordTyping = () => {
                 <div className="d-flex justify-content-center align-items-center h-100">
                   <div className="w-100 position-relative">
                     <p
-                      className="highlighted-word text-center"
+                      className="highlighted-word"
                       style={{
                         color: textSelectedColor,
                         WebkitTextStroke: `2px ${textBorderSelectedColor}`,
                       }}
                     >
-                      {sentences[currentIndex]}
+                      <div
+                        className="text-center justify-content-center px-3"
+                        dangerouslySetInnerHTML={{
+                          __html: textToDisplay,
+                        }}
+                      />
                     </p>
                     {sentences[currentIndex + 1] && (
                       <p
-                        className={`highlighted-word-ba text-center position-absolute w-100 afterText`}
+                        className={`highlighted-word-ba`}
                         style={{ color: nextTextSelectedColor }}
                       >
-                        {sentences[currentIndex + 1]}
+                        <div
+                          className="text-center justify-content-center px-3 position-absolute afterText"
+                          dangerouslySetInnerHTML={{
+                            __html: nextTextToDisplay,
+                          }}
+                        />
                       </p>
                     )}
                   </div>
