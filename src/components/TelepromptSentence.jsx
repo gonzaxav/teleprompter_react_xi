@@ -64,10 +64,14 @@ const WordTyping = () => {
   };
 
   useEffect(() => {
-    let tempInputText = inputText.replace(/<\/p>\s*<p[^>]*>/g, "\n");
+    console.log(inputText);
+    let tempInputText = inputText
+      .replace(/<\/p>\s*<p[^>]*>/g, "\n")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
     tempInputText = DOMPurify.sanitize(tempInputText, {
       ALLOWED_TAGS: ["i", "em", "b", "strong", "u", "br", "\n"],
-      ALLOWED_ATTR: ["style"],
+      ALLOWED_ATTR: [],
     });
 
     const ellipsisPlaceholder = "###ELLIPSIS###";
@@ -180,11 +184,12 @@ const WordTyping = () => {
               <div className="col d-flex flex-column pb-3 g-0">
                 <h1 className="w-100 text-center m-0">Teleprompter App</h1>
                 <div
-                  className="m-0"
+                  className="m-0 mx-2 mt-2"
                   style={{ display: displayingInput ? "block" : "none" }}
                 >
                   <ReactQuill
                     theme="snow"
+                    modules={{ toolbar: [["bold", "italic", "underline"]] }}
                     value={inputText}
                     onChange={handleTextInputChange}
                   />
