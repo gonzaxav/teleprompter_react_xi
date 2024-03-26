@@ -8,6 +8,8 @@ import "./dark-quill.css";
 
 import DOMPurify from "dompurify";
 
+import MenuModal from "./MenuModal";
+
 const WordTyping = () => {
   const [inputText, setInputText] = useState("");
   const [sentences, setSentences] = useState([]);
@@ -26,6 +28,10 @@ const WordTyping = () => {
 
   const [isAnimatingLeft, setIsAnimatingLeft] = useState(false);
   const [isAnimatingRight, setIsAnimatingRight] = useState(false);
+
+  const [showMenu, setShowMenu] = useState(false);
+  const handleCloseMenu = () => setShowMenu(false);
+  const handleShowMenu = () => setShowMenu(true);
 
   const handleMinimizeInput = () => {
     setDisplayingInput(!displayingInput);
@@ -64,7 +70,6 @@ const WordTyping = () => {
   };
 
   useEffect(() => {
-    console.log(inputText);
     let tempInputText = inputText
       .replace(/<\/p>\s*<p[^>]*>/g, "\n")
       .replace(/&lt;/g, "<")
@@ -182,89 +187,63 @@ const WordTyping = () => {
           <div className="col-8 g-0 d-flex flex-column">
             <div className="row g-0">
               <div className="col d-flex flex-column pb-3 g-0">
-                <h1 className="w-100 text-center m-0">Teleprompter App</h1>
-                <div
-                  className="m-0 mx-2 mt-2"
-                  style={{ display: displayingInput ? "block" : "none" }}
-                >
-                  <ReactQuill
-                    theme="snow"
-                    modules={{ toolbar: [["bold", "italic", "underline"]] }}
-                    value={inputText}
-                    onChange={handleTextInputChange}
-                  />
+                <div className="d-flex mx-2">
+                  <h1 className="w-100 text-start m-0">Teleprompter App</h1>
+                  <button className="btn btn-icons" onClick={handleShowMenu}>
+                    <i className="bi bi-three-dots"></i>
+                  </button>
                 </div>
-                <div className="m-0 d-flex flex-column">
-                  <div className="w-100 d-flex justify-content-center mt-2">
+                <div>
+                  <div
+                    className={`m-0 mx-2 mt-2 react-quill-container ${
+                      displayingInput ? "" : "hidden"
+                    }`}
+                  >
+                    <ReactQuill
+                      theme="snow"
+                      modules={{ toolbar: [["bold", "italic", "underline"]] }}
+                      value={inputText}
+                      onChange={handleTextInputChange}
+                    />
+                  </div>
+                  <div className="w-100 d-flex justify-content-center">
                     <button
-                      className="btn btn-dark"
+                      className="btn btn-dark btn-toggleQuill"
                       onClick={handleMinimizeInput}
                     >
                       {displayingInput ? (
-                        <i class="bi bi-arrows-collapse fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                        <i className="bi bi-arrows-collapse fs-5 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                       ) : (
-                        <i class="bi bi-arrows-expand fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                        <i className="bi bi-arrows-expand fs-5 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                       )}
                     </button>
                   </div>
-                  <div className="w-100 d-flex flex-row justify-content-center gap-2 mt-2">
-                    <button
-                      className="btn btn-dark btn-icons p-0"
-                      onClick={handleRestart}
-                    >
-                      <i className="bi bi-skip-backward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                    </button>
-                    <button
-                      className="btn btn-dark btn-icons p-0"
-                      onClick={handleGoBack1}
-                    >
-                      <i className="bi bi-caret-left fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                    </button>
-                    <button
-                      className="btn btn-dark btn-icons p-0"
-                      onClick={handleGoForward1}
-                    >
-                      <i className="bi bi-caret-right fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                    </button>
-                    <button
-                      className="btn btn-dark btn-icons p-0"
-                      onClick={handleGotolast}
-                    >
-                      <i className="bi bi-skip-forward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                    </button>
-                    <button className="btn btn-dark btn-icons p-0">
-                      <input
-                        className="btn-icons-fill"
-                        type="color"
-                        value={bgSelectedColor}
-                        onChange={handleBgColorChange}
-                      />
-                    </button>
-                    <button className="btn btn-dark btn-icons p-0">
-                      <input
-                        className="btn-icons-fill"
-                        type="color"
-                        value={textSelectedColor}
-                        onChange={handleTextColorChange}
-                      />
-                    </button>
-                    <button className="btn btn-dark btn-icons p-0">
-                      <input
-                        className="btn-icons-fill"
-                        type="color"
-                        value={textBorderSelectedColor}
-                        onChange={handleTextBorderColorChange}
-                      />
-                    </button>
-                    <button className="btn btn-dark btn-icons p-0">
-                      <input
-                        className="btn-icons-fill"
-                        type="color"
-                        value={nextTextSelectedColor}
-                        onChange={handleNextTextColorChange}
-                      />
-                    </button>
-                  </div>
+                </div>
+                <div className="w-100 d-flex flex-row justify-content-center gap-2 mt-2">
+                  <button
+                    className="btn btn-dark btn-icons p-0"
+                    onClick={handleRestart}
+                  >
+                    <i className="bi bi-skip-backward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                  </button>
+                  <button
+                    className="btn btn-dark btn-icons p-0"
+                    onClick={handleGoBack1}
+                  >
+                    <i className="bi bi-caret-left fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                  </button>
+                  <button
+                    className="btn btn-dark btn-icons p-0"
+                    onClick={handleGoForward1}
+                  >
+                    <i className="bi bi-caret-right fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                  </button>
+                  <button
+                    className="btn btn-dark btn-icons p-0"
+                    onClick={handleGotolast}
+                  >
+                    <i className="bi bi-skip-forward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -275,7 +254,7 @@ const WordTyping = () => {
               <div className="col h-100 d-flex flex-column">
                 <div className="d-flex justify-content-center align-items-center h-100">
                   <div className="w-100 position-relative">
-                    <p
+                    <div
                       className="highlighted-word"
                       style={{
                         color: textSelectedColor,
@@ -288,9 +267,9 @@ const WordTyping = () => {
                           __html: textToDisplay,
                         }}
                       />
-                    </p>
+                    </div>
                     {sentences[currentIndex + 1] && (
-                      <p
+                      <div
                         className={`highlighted-word-ba`}
                         style={{ color: nextTextSelectedColor }}
                       >
@@ -300,7 +279,7 @@ const WordTyping = () => {
                             __html: nextTextToDisplay,
                           }}
                         />
-                      </p>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -323,6 +302,18 @@ const WordTyping = () => {
           </div>
         </div>
       </div>
+      <MenuModal 
+        showMenu={showMenu} 
+        handleCloseMenu={handleCloseMenu} 
+        bgSelectedColor={bgSelectedColor}
+        handleBgColorChange={handleBgColorChange}
+        textSelectedColor={textSelectedColor}
+        handleTextColorChange={handleTextColorChange}
+        textBorderSelectedColor={textBorderSelectedColor}
+        handleTextBorderColorChange={handleTextBorderColorChange}
+        nextTextSelectedColor={nextTextSelectedColor}
+        handleNextTextColorChange={handleNextTextColorChange}
+      />
     </section>
   );
 };
