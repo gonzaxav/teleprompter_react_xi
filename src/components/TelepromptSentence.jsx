@@ -1,17 +1,22 @@
 // src/components/WordTyping.js
 import React, { useState, useEffect } from "react";
-import "./TelepromptSentence.css"; // Import the stylesheet
-
+import { useDispatch, useSelector } from "react-redux";
+import "./TelepromptSentence.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./dark-quill.css";
-
 import DOMPurify from "dompurify";
-
 import MenuModal from "./MenuModal";
+import MouseHoverBtnPrev from "./MouseHoverBtnPrev";
+import MouseHoverBtnNext from "./MouseHoverBtnNext";
+import { setInputText } from "../redux/settingsSlice";
 
 const WordTyping = () => {
-  const [inputText, setInputText] = useState("");
+  const dispatch = useDispatch();
+  const settings = useSelector((state) => state.settings);
+
+  const inputText = settings.inputText;
+
   const [sentences, setSentences] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -19,12 +24,6 @@ const WordTyping = () => {
   const [nextTextToDisplay, setNextTextToDisplay] = useState("");
 
   const [displayingInput, setDisplayingInput] = useState(true);
-
-  const [bgSelectedColor, setBgSelectedColor] = useState("#808080");
-  const [textSelectedColor, setTextSelectedColor] = useState("#ffffff");
-  const [textBorderSelectedColor, setTextBorderSelectedColor] =
-    useState("#000000");
-  const [nextTextSelectedColor, setNextTextSelectedColor] = useState("#454545");
 
   const [isAnimatingLeft, setIsAnimatingLeft] = useState(false);
   const [isAnimatingRight, setIsAnimatingRight] = useState(false);
@@ -56,18 +55,23 @@ const WordTyping = () => {
     handleGoForward1();
   };
 
-  const handleBgColorChange = (event) => {
-    setBgSelectedColor(event.target.value);
-  };
-  const handleTextColorChange = (event) => {
-    setTextSelectedColor(event.target.value);
-  };
-  const handleTextBorderColorChange = (event) => {
-    setTextBorderSelectedColor(event.target.value);
-  };
-  const handleNextTextColorChange = (event) => {
-    setNextTextSelectedColor(event.target.value);
-  };
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!settings.enableHotkeys) return;
+
+      if (event.keyCode === 37) {
+        handleGoBack1();
+      } else if (event.keyCode === 39) {
+        handleGoForward1();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentIndex, settings.enableHotkeys]);
 
   useEffect(() => {
     let tempInputText = inputText
@@ -147,22 +151,22 @@ const WordTyping = () => {
   }, [sentences, currentIndex]);
 
   const handleTextInputChange = (value) => {
-    setInputText(value);
+    dispatch(setInputText(value));
   };
-  const handleGoBack1 = (e) => {
+  const handleGoBack1 = () => {
     setCurrentIndex(currentIndex - 1 < 0 ? 0 : currentIndex - 1);
   };
-  const handleGoForward1 = (e) => {
+  const handleGoForward1 = () => {
     setCurrentIndex(
       currentIndex + 1 >= sentences.length
         ? sentences.length - 1
         : currentIndex + 1
     );
   };
-  const handleRestart = (e) => {
+  const handleRestart = () => {
     setCurrentIndex(0);
   };
-  const handleGotolast = (e) => {
+  const handleGotolast = () => {
     setCurrentIndex(sentences.length - 1);
   };
 
@@ -170,21 +174,13 @@ const WordTyping = () => {
     <section className="graybg">
       <div className="container-fluid vh-100">
         <div className="row vh-100">
-          <div
-            className={`col-2 g-0 mouseHoverBg h-100 ${
-              isAnimatingLeft ? "play-animation-bg" : ""
-            }`}
-          >
-            <div
-              className={`col-2 g-0 center-text h-100 w-100 d-flex justify-content-center align-items-center ${
-                isAnimatingLeft ? "play-animation" : ""
-              }`}
-              onMouseEnter={handleMouseLeftArea}
-            >
-              <div className="center-text">Previous</div>
-            </div>
-          </div>
-          <div className="col-8 g-0 d-flex flex-column">
+          <MouseHoverBtnPrev
+            isAnimatingLeft={isAnimatingLeft}
+            handleMouseLeftArea={handleMouseLeftArea}
+            isAnimatingRight={isAnimatingRight}
+            handleMouseRightArea={handleMouseRightArea}
+          />
+          <div className="col g-0 d-flex flex-column">
             <div className="row g-0">
               <div className="col d-flex flex-column pb-3 g-0">
                 <div className="d-flex mx-2">
@@ -202,6 +198,7 @@ const WordTyping = () => {
                     <ReactQuill
                       theme="snow"
                       modules={{ toolbar: [["bold", "italic", "underline"]] }}
+                      formats={["bold", "italic", "underline"]}
                       value={inputText}
                       onChange={handleTextInputChange}
                     />
@@ -219,46 +216,48 @@ const WordTyping = () => {
                     </button>
                   </div>
                 </div>
-                <div className="w-100 d-flex flex-row justify-content-center gap-2 mt-2">
-                  <button
-                    className="btn btn-dark btn-icons p-0"
-                    onClick={handleRestart}
-                  >
-                    <i className="bi bi-skip-backward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                  </button>
-                  <button
-                    className="btn btn-dark btn-icons p-0"
-                    onClick={handleGoBack1}
-                  >
-                    <i className="bi bi-caret-left fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                  </button>
-                  <button
-                    className="btn btn-dark btn-icons p-0"
-                    onClick={handleGoForward1}
-                  >
-                    <i className="bi bi-caret-right fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                  </button>
-                  <button
-                    className="btn btn-dark btn-icons p-0"
-                    onClick={handleGotolast}
-                  >
-                    <i className="bi bi-skip-forward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
-                  </button>
-                </div>
+                {settings.displayActions && (
+                  <div className="w-100 d-flex flex-row justify-content-center gap-2 mt-2">
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleRestart}
+                    >
+                      <i className="bi bi-skip-backward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                    </button>
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleGoBack1}
+                    >
+                      <i className="bi bi-caret-left fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                    </button>
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleGoForward1}
+                    >
+                      <i className="bi bi-caret-right fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                    </button>
+                    <button
+                      className="btn btn-dark btn-icons p-0"
+                      onClick={handleGotolast}
+                    >
+                      <i className="bi bi-skip-forward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <div
               className="row g-0 flex-grow-1"
-              style={{ backgroundColor: bgSelectedColor }}
+              style={{ backgroundColor: settings.bgColor }}
             >
               <div className="col h-100 d-flex flex-column">
                 <div className="d-flex justify-content-center align-items-center h-100">
                   <div className="w-100 position-relative">
                     <div
-                      className="highlighted-word"
                       style={{
-                        color: textSelectedColor,
-                        WebkitTextStroke: `2px ${textBorderSelectedColor}`,
+                        fontSize: `${settings.fontSize}px`,
+                        color: settings.textColor,
+                        WebkitTextStroke: `${settings.fontSize / 32}px ${settings.textBorderColor}`,
                       }}
                     >
                       <div
@@ -270,8 +269,10 @@ const WordTyping = () => {
                     </div>
                     {sentences[currentIndex + 1] && (
                       <div
-                        className={`highlighted-word-ba`}
-                        style={{ color: nextTextSelectedColor }}
+                        style={{
+                          fontSize: `${settings.fontSize}px`,
+                          color: settings.nextTextColor,
+                        }}
                       >
                         <div
                           className="text-center justify-content-center px-3 position-absolute afterText"
@@ -286,34 +287,15 @@ const WordTyping = () => {
               </div>
             </div>
           </div>
-          <div
-            className={`col-2 g-0 mouseHoverBg h-100 ${
-              isAnimatingRight ? "play-animation-bg" : ""
-            }`}
-          >
-            <div
-              className={`col-2 g-0 center-text h-100 w-100 d-flex justify-content-center align-items-center ${
-                isAnimatingRight ? "play-animation" : ""
-              }`}
-              onMouseEnter={handleMouseRightArea}
-            >
-              <div className="center-text">Next</div>
-            </div>
-          </div>
+          <MouseHoverBtnNext
+            isAnimatingLeft={isAnimatingLeft}
+            handleMouseLeftArea={handleMouseLeftArea}
+            isAnimatingRight={isAnimatingRight}
+            handleMouseRightArea={handleMouseRightArea}
+          />
         </div>
       </div>
-      <MenuModal 
-        showMenu={showMenu} 
-        handleCloseMenu={handleCloseMenu} 
-        bgSelectedColor={bgSelectedColor}
-        handleBgColorChange={handleBgColorChange}
-        textSelectedColor={textSelectedColor}
-        handleTextColorChange={handleTextColorChange}
-        textBorderSelectedColor={textBorderSelectedColor}
-        handleTextBorderColorChange={handleTextBorderColorChange}
-        nextTextSelectedColor={nextTextSelectedColor}
-        handleNextTextColorChange={handleNextTextColorChange}
-      />
+      <MenuModal showMenu={showMenu} handleCloseMenu={handleCloseMenu} />
     </section>
   );
 };
