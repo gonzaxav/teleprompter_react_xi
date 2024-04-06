@@ -79,10 +79,6 @@ input.form-control:focus {
   border: 3px solid var(--gray-2);
 }
 
-.beforeAfterHoverBtn:active {
-  transform: translateY(3px);
-}
-
 .beforeAfterHoverBtn::after,
 .beforeAfterHoverBtn::before {
   border-radius: 3px;
