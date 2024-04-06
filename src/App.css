@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif;
+
+  --gray-0: #131415;
+  --gray-1: #1e2124;
+  --gray-2: #2e3136;
+  --gray-3: #36393e;
+  --gray-4: #424549;
+  --gray-5: #4a4c51;
+  --gray-6: #99aab5;
+
+  --white-0: #fff;
+  --white-1: #c0c8ce;
+}
+
+.btn-click-dark {
+  --bs-btn-color: var(--white-0);
+  --bs-btn-hover-color: var(--white-0);
+
+  --bs-btn-bg: var(--gray-1);
+  --bs-btn-hover-bg: var(--gray-4);
+
+  --bs-btn-border-color: var(--gray-1);
+  --bs-btn-hover-border-color: var(--gray-4);
+
+  --bs-btn-focus-shadow-rgb: 66, 70, 73;
+
+  --bs-btn-active-color: var(--white-0);
+  --bs-btn-active-bg: var(--gray-4);
+  --bs-btn-active-border-color: var(--gray-4);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+  --bs-btn-disabled-color: var(--white-1);
+  --bs-btn-disabled-bg: var(--gray-2);
+  --bs-btn-disabled-border-color: var(--gray-2);
+}
+
+body {
+  overflow: hidden;
+}
+
+section.graybg {
+  background-color: var(--gray-3);
+}
+
+.highlight-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icons {
+  width: 50px;
+  height: 50px;
+}
+
+.btn-icons-fill {
+  padding: 0px;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.afterText {
+  width: 100%;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+textarea.form-control,
+textarea.form-control:focus,
+input.form-control,
+input.form-control:focus {
+  color: white;
+  background-color: black;
+}
+
+.center-text {
+  font-size: calc(100% + 1vw);
+}
+
+.col-skinny {
+  flex: 0 0 0%;
+}
+
+.beforeAfterHoverBtn {
+  cursor: default;
+  width: 80%;
+  height: 20%;
+  border-radius: 5px;
+  position: relative;
+  transition: color 0.5s, transform 0.2s, background-color 0.2s;
+  outline: none;
+  margin: 0 10px;
+  padding: 23px 33px;
+  border: 3px solid transparent;
+}
+
+.beforeAfterHoverBtn.material-bubble.disabled {
+  color: var(--gray-2);
+}
+.material-bubble.disabled::before {
+  border: 3px solid var(--gray-2);
+}
+
+.beforeAfterHoverBtn::after,
+.beforeAfterHoverBtn::before {
+  border-radius: 3px;
+}
+
+.material-bubble {
+  background-color: transparent;
+  color: var(--gray-0);
+  border: none;
+  overflow: hidden;
+  box-shadow: none;
+  z-index: 0;
+}
+
+.material-bubble::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--gray-0);
+  transition: opacity 0.3s, border 0.3s;
+}
+
+.material-bubble:not(.disabled):hover::before {
+  opacity: 0;
+}
+
+.material-bubble::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--gray-5);
+  border-color: transparent;
+  opacity: 0;
+  z-index: -1;
+  transition: transform 0.2s, opacity 0.2s, background-color 0.2s;
+}
+
+.material-bubble:not(.disabled):hover::after {
+  opacity: 1;
+}
+
+.material-bubble.next::after {
+  transform: scaleX(0%) skewX(30deg);
+}
+
+.material-bubble.next:not(.disabled):hover::after {
+  transform: scaleX(150%) skewX(30deg);
+}
+
+.material-bubble.prev::after {
+  transform: scaleX(0%) skewX(-30deg);
+}
+
+.material-bubble.prev:not(.disabled):hover::after {
+  transform: scaleX(150%) skewX(-30deg);
+}

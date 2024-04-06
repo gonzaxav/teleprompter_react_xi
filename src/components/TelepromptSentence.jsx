@@ -194,7 +194,7 @@ const WordTyping = () => {
                   </div>
                   <div className="w-100 d-flex justify-content-center">
                     <button
-                      className="btn btn-dark btn-toggleQuill"
+                      className="btn btn-click-dark btn-toggleQuill"
                       onClick={handleMinimizeInput}
                     >
                       {displayingInput ? (
@@ -208,25 +208,25 @@ const WordTyping = () => {
                 {settings.displayActions && (
                   <div className="w-100 d-flex flex-row justify-content-center gap-2 mt-2">
                     <button
-                      className="btn btn-dark btn-icons p-0"
+                      className={`btn btn-click-dark ${canDecrement ? "" : "disabled"} btn-icons p-0`}
                       onClick={handleRestart}
                     >
                       <i className="bi bi-skip-backward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                     </button>
                     <button
-                      className="btn btn-dark btn-icons p-0"
+                      className={`btn btn-click-dark ${canDecrement ? "" : "disabled"} btn-icons p-0`}
                       onClick={handleGoBack1}
                     >
                       <i className="bi bi-caret-left fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                     </button>
                     <button
-                      className="btn btn-dark btn-icons p-0"
+                      className={`btn btn-click-dark ${canIncrement ? "" : "disabled"} btn-icons p-0`}
                       onClick={handleGoForward1}
                     >
                       <i className="bi bi-caret-right fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>
                     </button>
                     <button
-                      className="btn btn-dark btn-icons p-0"
+                      className={`btn btn-click-dark ${canIncrement ? "" : "disabled"} btn-icons p-0`}
                       onClick={handleGotolast}
                     >
                       <i className="bi bi-skip-forward fs-3 btn-icons-fill d-flex justify-content-center align-items-center"></i>

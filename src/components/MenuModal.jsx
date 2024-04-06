@@ -64,7 +64,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
 
               <div className="row">
                 <div className="col">
-                  <button className="btn btn-dark btn-icons p-0">
+                  <button className="btn btn-click-dark btn-icons p-0">
                     <input
                       className="btn-icons-fill"
                       type="color"
@@ -73,7 +73,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                       onChange={handleColorInputChange}
                     />
                   </button>
-                  <button className="btn btn-dark btn-icons p-0">
+                  <button className="btn btn-click-dark btn-icons p-0">
                     <input
                       className="btn-icons-fill"
                       type="color"
@@ -82,7 +82,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                       onChange={handleColorInputChange}
                     />
                   </button>
-                  <button className="btn btn-dark btn-icons p-0">
+                  <button className="btn btn-click-dark btn-icons p-0">
                     <input
                       className="btn-icons-fill"
                       type="color"
@@ -91,7 +91,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                       onChange={handleColorInputChange}
                     />
                   </button>
-                  <button className="btn btn-dark btn-icons p-0">
+                  <button className="btn btn-click-dark btn-icons p-0">
                     <input
                       className="btn-icons-fill"
                       type="color"
