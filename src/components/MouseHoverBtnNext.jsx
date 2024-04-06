@@ -23,6 +23,7 @@ function MouseHoverBtnNext({
                 isAnimatingLeft ? "beforeAfterHoverAnim" : ""
               }`}
               onMouseEnter={handleMouseLeftArea}
+              onClick={handleMouseLeftArea}
             >
               Previous
             </div>
@@ -34,6 +35,7 @@ function MouseHoverBtnNext({
               isAnimatingRight ? "beforeAfterHoverAnim" : ""
             }`}
             onMouseEnter={handleMouseRightArea}
+            onClick={handleMouseRightArea}
           >
             Next
           </div>
