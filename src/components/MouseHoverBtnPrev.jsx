@@ -6,6 +6,8 @@ function MouseHoverBtnPrev({
   handleMouseLeftArea,
   isAnimatingRight,
   handleMouseRightArea,
+  canDecrement,
+  canIncrement,
 }) {
   const settings = useSelector((state) => state.settings);
 
@@ -16,7 +18,7 @@ function MouseHoverBtnPrev({
         settings.hoverRadioValue === "left") ? (
         <div className="col-2 g-0 h-100 d-flex flex-column gap-5 justify-content-center align-items-center">
           <div
-            className={`beforeAfterHoverBtn center-text d-flex justify-content-center align-items-center ${
+            className={`beforeAfterHoverBtn material-bubble prev ${canDecrement ? "" : "disabled"} center-text d-flex justify-content-center align-items-center ${
               isAnimatingLeft ? "beforeAfterHoverAnim" : ""
             }`}
             onMouseEnter={handleMouseLeftArea}
@@ -25,7 +27,7 @@ function MouseHoverBtnPrev({
           </div>
           {settings.hoverRadioValue === "left" ? (
             <div
-              className={`beforeAfterHoverBtn center-text d-flex justify-content-center align-items-center ${
+              className={`beforeAfterHoverBtn material-bubble next ${canIncrement ? "" : "disabled"} center-text d-flex justify-content-center align-items-center ${
                 isAnimatingRight ? "beforeAfterHoverAnim" : ""
               }`}
               onMouseEnter={handleMouseRightArea}

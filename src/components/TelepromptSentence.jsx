@@ -20,13 +20,15 @@ const WordTyping = () => {
   const [sentences, setSentences] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [canDecrement, setCanDecrement] = useState(currentIndex > 0);
+  const [canIncrement, setCanIncrement] = useState(
+    currentIndex < sentences.length - 1
+  );
+
   const [textToDisplay, setTextToDisplay] = useState("");
   const [nextTextToDisplay, setNextTextToDisplay] = useState("");
 
   const [displayingInput, setDisplayingInput] = useState(true);
-
-  const [isAnimatingLeft, setIsAnimatingLeft] = useState(false);
-  const [isAnimatingRight, setIsAnimatingRight] = useState(false);
 
   const [showMenu, setShowMenu] = useState(false);
   const handleCloseMenu = () => setShowMenu(false);
@@ -37,21 +39,9 @@ const WordTyping = () => {
   };
 
   const handleMouseLeftArea = () => {
-    if (currentIndex - 1 >= 0) {
-      setIsAnimatingLeft(true); // Start the animation
-      setTimeout(() => {
-        setIsAnimatingLeft(false); // Stop the animation after 1 second
-      }, 300);
-    }
     handleGoBack1();
   };
   const handleMouseRightArea = () => {
-    if (currentIndex + 1 < sentences.length) {
-      setIsAnimatingRight(true); // Start the animation
-      setTimeout(() => {
-        setIsAnimatingRight(false); // Stop the animation after 1 second
-      }, 300);
-    }
     handleGoForward1();
   };
 
@@ -148,20 +138,19 @@ const WordTyping = () => {
       .join("");
 
     setNextTextToDisplay(newNextText);
+
+    setCanDecrement(currentIndex > 0);
+    setCanIncrement(currentIndex < sentences.length - 1);
   }, [sentences, currentIndex]);
 
   const handleTextInputChange = (value) => {
     dispatch(setInputText(value));
   };
   const handleGoBack1 = () => {
-    setCurrentIndex(currentIndex - 1 < 0 ? 0 : currentIndex - 1);
+    setCurrentIndex(canDecrement ? currentIndex - 1 : currentIndex);
   };
   const handleGoForward1 = () => {
-    setCurrentIndex(
-      currentIndex + 1 >= sentences.length
-        ? sentences.length - 1
-        : currentIndex + 1
-    );
+    setCurrentIndex(canIncrement ? currentIndex + 1 : currentIndex);
   };
   const handleRestart = () => {
     setCurrentIndex(0);
@@ -175,10 +164,10 @@ const WordTyping = () => {
       <div className="container-fluid vh-100">
         <div className="row vh-100">
           <MouseHoverBtnPrev
-            isAnimatingLeft={isAnimatingLeft}
             handleMouseLeftArea={handleMouseLeftArea}
-            isAnimatingRight={isAnimatingRight}
             handleMouseRightArea={handleMouseRightArea}
+            canDecrement={canDecrement}
+            canIncrement={canIncrement}
           />
           <div className="col g-0 d-flex flex-column">
             <div className="row g-0">
@@ -257,7 +246,9 @@ const WordTyping = () => {
                       style={{
                         fontSize: `${settings.fontSize}px`,
                         color: settings.textColor,
-                        WebkitTextStroke: `${settings.fontSize / 32}px ${settings.textBorderColor}`,
+                        WebkitTextStroke: `${settings.fontSize / 32}px ${
+                          settings.textBorderColor
+                        }`,
                       }}
                     >
                       <div
@@ -288,10 +279,10 @@ const WordTyping = () => {
             </div>
           </div>
           <MouseHoverBtnNext
-            isAnimatingLeft={isAnimatingLeft}
             handleMouseLeftArea={handleMouseLeftArea}
-            isAnimatingRight={isAnimatingRight}
             handleMouseRightArea={handleMouseRightArea}
+            canDecrement={canDecrement}
+            canIncrement={canIncrement}
           />
         </div>
       </div>
