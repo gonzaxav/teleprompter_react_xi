@@ -299,14 +299,31 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                     {menuSelected === "text" && (
                       <div className="row">
                         <div className="col">
-                          <label htmlFor="fontSizeInput">Font Size:</label>
-                          <input
-                            id="fontSizeInput"
-                            type="number"
-                            min={0}
-                            value={settings.fontSize}
-                            onChange={handleFontSizeChange}
-                          />
+                          <div className="position-relative">
+                            <label for="customRange2" class="form-label">
+                              Font Size:
+                            </label>
+                            <input
+                              type="range"
+                              className="form-range"
+                              min="32"
+                              max="80"
+                              step="8"
+                              id="fontSizeInput"
+                              value={settings.fontSize}
+                              onChange={handleFontSizeChange}
+                              list="fontSizeMarks"
+                            />
+                            <datalist id="fontSizeMarks">
+                              <option value="32">32</option>
+                              <option value="40">40</option>
+                              <option value="48">48</option>
+                              <option value="56">56</option>
+                              <option value="64">64</option>
+                              <option value="72">72</option>
+                              <option value="80">80</option>
+                            </datalist>
+                          </div>
                         </div>
                       </div>
                     )}
