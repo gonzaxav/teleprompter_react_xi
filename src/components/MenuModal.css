@@ -42,3 +42,22 @@
 .custom-modal .form-check-input {
   --bs-body-bg: var(--gray-1);
 }
+
+.checkbox-title {
+  font-size: 1em;
+  text-transform: capitalize;
+  color: var(--white-1);
+  -webkit-user-select: none; /* For webkit browsers (Chrome, Safari, etc.) */
+  -moz-user-select: none; /* For Mozilla Firefox */
+  -ms-user-select: none; /* For Microsoft Edge */
+  user-select: none; /* Standard syntax */
+}
+
+.checkbox-description {
+  font-size: .75em;
+  color: var(--white-1);
+  -webkit-user-select: none; /* For webkit browsers (Chrome, Safari, etc.) */
+  -moz-user-select: none; /* For Mozilla Firefox */
+  -ms-user-select: none; /* For Microsoft Edge */
+  user-select: none; /* Standard syntax */
+}

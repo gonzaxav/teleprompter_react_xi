@@ -107,42 +107,54 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                     {menuSelected === "colors" && (
                       <div className="row">
                         <div className="col">
-                          <button className="btn btn-click-dark btn-icons p-0">
-                            <input
-                              className="btn-icons-fill"
-                              type="color"
-                              name="bgColor"
-                              value={settings.bgColor}
-                              onChange={handleColorInputChange}
-                            />
-                          </button>
-                          <button className="btn btn-click-dark btn-icons p-0">
-                            <input
-                              className="btn-icons-fill"
-                              type="color"
-                              name="textColor"
-                              value={settings.textColor}
-                              onChange={handleColorInputChange}
-                            />
-                          </button>
-                          <button className="btn btn-click-dark btn-icons p-0">
-                            <input
-                              className="btn-icons-fill"
-                              type="color"
-                              name="textBorderColor"
-                              value={settings.textBorderColor}
-                              onChange={handleColorInputChange}
-                            />
-                          </button>
-                          <button className="btn btn-click-dark btn-icons p-0">
-                            <input
-                              className="btn-icons-fill"
-                              type="color"
-                              name="nextTextColor"
-                              value={settings.nextTextColor}
-                              onChange={handleColorInputChange}
-                            />
-                          </button>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <p className="mb-1">Background's color:</p>
+                              <input
+                                className="btn-icons-fill"
+                                type="color"
+                                name="bgColor"
+                                value={settings.bgColor}
+                                onChange={handleColorInputChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <p className="mb-1">Text color:</p>
+                              <input
+                                className="btn-icons-fill"
+                                type="color"
+                                name="textColor"
+                                value={settings.textColor}
+                                onChange={handleColorInputChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <p className="mb-1">Text border color:</p>
+                              <input
+                                className="btn-icons-fill"
+                                type="color"
+                                name="textBorderColor"
+                                value={settings.textBorderColor}
+                                onChange={handleColorInputChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <p className="mb-1">Upcoming text color:</p>
+                              <input
+                                className="btn-icons-fill"
+                                type="color"
+                                name="nextTextColor"
+                                value={settings.nextTextColor}
+                                onChange={handleColorInputChange}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -162,8 +174,12 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                               class="form-check-label"
                               htmlFor="showActions"
                             >
-                              Show Actions
+                              Display navigation actions
                             </label>
+                            <p className="checkbox-description">
+                              Buttons such as "change to the next, previous,
+                              first or last element".
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -184,8 +200,12 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                               class="form-check-label"
                               htmlFor="showHoverButtons"
                             >
-                              Show Hover Buttons
+                              Display hover triggers
                             </label>
+                            <p className="checkbox-description">
+                              Areas that trigger on mouse enter. Ideal if you
+                              are recording
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -206,8 +226,12 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                               class="form-check-label"
                               htmlFor="enableHotkeys"
                             >
-                              Enable Hotkeys
+                              Enable keyboard hotkeys
                             </label>
+                            <p className="checkbox-description">
+                              Hotkeys such as left and right arrow to change to
+                              previous and next element.
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -218,6 +242,13 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                         <hr />
                         <div className="row">
                           <div className="col d-flex flex-column gap-1">
+                            <p className="checkbox-title mb-0">
+                              Position of hover triggers
+                            </p>
+                            <p className="checkbox-description">
+                              Choose where you would prefer the hover triggers
+                              to be positioned.
+                            </p>
                             <div class="form-check">
                               <input
                                 class="form-check-input"
@@ -229,7 +260,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                                 id="radioSplit"
                               />
                               <label class="form-check-label" for="radioSplit">
-                                Split
+                                One on each side
                               </label>
                             </div>
                             <div class="form-check">
@@ -243,7 +274,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                                 id="radioLeft"
                               />
                               <label class="form-check-label" for="radioLeft">
-                                Left
+                                Both left
                               </label>
                             </div>
                             <div class="form-check">
@@ -257,7 +288,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                                 id="radioRight"
                               />
                               <label class="form-check-label" for="radioRight">
-                                Right
+                                Both right
                               </label>
                             </div>
                           </div>
