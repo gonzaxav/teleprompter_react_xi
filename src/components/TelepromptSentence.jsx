@@ -198,9 +198,9 @@ const WordTyping = () => {
                       onClick={handleMinimizeInput}
                     >
                       {displayingInput ? (
-                        <i className="bi bi-arrows-collapse fs-5 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                        <i className="bi bi-arrows-collapse fs-5 d-flex justify-content-center align-items-center"></i>
                       ) : (
-                        <i className="bi bi-arrows-expand fs-5 btn-icons-fill d-flex justify-content-center align-items-center"></i>
+                        <i className="bi bi-arrows-expand fs-5 d-flex justify-content-center align-items-center"></i>
                       )}
                     </button>
                   </div>
@@ -246,9 +246,11 @@ const WordTyping = () => {
                       style={{
                         fontSize: `${settings.fontSize}px`,
                         color: settings.textColor,
-                        WebkitTextStroke: `${settings.fontSize / 32}px ${
-                          settings.textBorderColor
-                        }`,
+                        ...(settings.textStroke
+                          ? {
+                              WebkitTextStroke: `${settings.fontSize / 32}px ${settings.textBorderColor}`,
+                            }
+                          : {}),
                       }}
                     >
                       <div

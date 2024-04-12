@@ -16,6 +16,7 @@ const initialState = {
   enableHotkeys: true,
   hoverRadioValue: "split",
   fontSize: 64,
+  textStroke: false,
 };
 
 const settingsSlice = createSlice({
@@ -46,6 +47,9 @@ const settingsSlice = createSlice({
     setFontSize(state, action) {
       state.fontSize = action.payload;
     },
+    setTextStroke(state, action) {
+      state.textStroke = action.payload;
+    },
     resetState(state) {
       Object.keys(initialState).forEach(key => {
         if (key !== 'inputText') {
@@ -65,6 +69,7 @@ export const {
   setEnableHotkeys,
   setHoverRadioValue,
   setFontSize,
+  setTextStroke,
   resetState,
 } = actions;
 export default reducer;

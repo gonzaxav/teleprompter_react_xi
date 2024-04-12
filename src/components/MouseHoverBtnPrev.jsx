@@ -16,7 +16,7 @@ function MouseHoverBtnPrev({
       {settings.displayHoverBtns &&
       (settings.hoverRadioValue === "split" ||
         settings.hoverRadioValue === "left") ? (
-        <div className="col-2 g-0 h-100 d-flex flex-column gap-5 justify-content-center align-items-center">
+        <div className="col-2 g-0 h-100 d-flex flex-column gap-6 justify-content-center align-items-center">
           <div
             className={`beforeAfterHoverBtn material-bubble prev ${canDecrement ? "" : "disabled"} center-text d-flex justify-content-center align-items-center ${
               isAnimatingLeft ? "beforeAfterHoverAnim" : ""

@@ -62,31 +62,27 @@
   user-select: none; /* Standard syntax */
 }
 
-/* Adjust the appearance of the datalist container */
 .datalist-container {
-  position: relative; /* Set the position to relative */
+  position: relative;
 }
 
-/* Adjust the appearance of the datalist */
 datalist {
-  position: absolute; /* Position the datalist absolutely */
-  top: calc(100% + 5px); /* Position the datalist below the range input */
-  left: 0; /* Align the datalist with the left edge of the input */
+  position: relative;
+  top: calc(100% + 5px);
+  left: 0;
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
 
-/* Adjust the appearance of the options within the datalist */
 datalist option {
-  display: inline-block; /* Display each option as an inline block */
+  display: inline-block;
 }
 
-/* Change the color of the range input line */
 input[type="range"]::-webkit-slider-runnable-track {
   background-color: var(
     --blue-0
-  ); /* Change the color to var(--blue-0) for WebKit browsers */
+  );
 }
 input[type="range"]::-moz-range-track {
   background-color: var(

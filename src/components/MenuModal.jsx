@@ -10,6 +10,7 @@ import {
   setEnableHotkeys,
   setHoverRadioValue,
   setFontSize,
+  setTextStroke,
 } from "../redux/settingsSlice";
 import { useState } from "react";
 
@@ -45,6 +46,10 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
     if (value >= 0) {
       dispatch(setFontSize(value));
     }
+  };
+
+  const handleCheckboxChangeTextBorder = () => {
+    dispatch(setTextStroke(!settings.textStroke));
   };
 
   const handleButtonClick = (menu) => {
@@ -107,11 +112,17 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                     {menuSelected === "colors" && (
                       <div className="row">
                         <div className="col">
+                          <p className="checkbox-title mb-0">Colors</p>
+                          <p className="checkbox-description">
+                            Modify the colors of the application. Some recording
+                            applications work best with a saturated green screen
+                            effect.
+                          </p>
                           <div className="row mb-3">
                             <div className="col">
-                              <p className="mb-1">Background's color:</p>
+                              <p className="mb-1">Background color:</p>
                               <input
-                                className="btn-icons-fill"
+                                className="btn-colors-fill"
                                 type="color"
                                 name="bgColor"
                                 value={settings.bgColor}
@@ -123,7 +134,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                             <div className="col">
                               <p className="mb-1">Text color:</p>
                               <input
-                                className="btn-icons-fill"
+                                className="btn-colors-fill"
                                 type="color"
                                 name="textColor"
                                 value={settings.textColor}
@@ -135,7 +146,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                             <div className="col">
                               <p className="mb-1">Text border color:</p>
                               <input
-                                className="btn-icons-fill"
+                                className="btn-colors-fill"
                                 type="color"
                                 name="textBorderColor"
                                 value={settings.textBorderColor}
@@ -147,7 +158,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                             <div className="col">
                               <p className="mb-1">Upcoming text color:</p>
                               <input
-                                className="btn-icons-fill"
+                                className="btn-colors-fill"
                                 type="color"
                                 name="nextTextColor"
                                 value={settings.nextTextColor}
@@ -203,8 +214,9 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                               Display hover triggers
                             </label>
                             <p className="checkbox-description">
-                              Areas that trigger on mouse enter. Ideal if you
-                              are recording
+                              Areas that get triggered when the mouse hovers
+                              over them. Does not require clicking; perfect for
+                              recording.
                             </p>
                           </div>
                         </div>
@@ -229,8 +241,8 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                               Enable keyboard hotkeys
                             </label>
                             <p className="checkbox-description">
-                              Hotkeys such as left and right arrow to change to
-                              previous and next element.
+                              Left & right arrow keys change text to
+                              previous/next.
                             </p>
                           </div>
                         </div>
@@ -243,7 +255,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                         <div className="row">
                           <div className="col d-flex flex-column gap-1">
                             <p className="checkbox-title mb-0">
-                              Position of hover triggers
+                              Hover Trigger Positions
                             </p>
                             <p className="checkbox-description">
                               Choose where you would prefer the hover triggers
@@ -297,7 +309,7 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                     )}
 
                     {menuSelected === "text" && (
-                      <div className="row">
+                      <div className="row mb-3">
                         <div className="col">
                           <div className="position-relative">
                             <label for="customRange2" class="form-label">
@@ -326,6 +338,28 @@ const MenuModal = ({ showMenu, handleCloseMenu }) => {
                           </div>
                         </div>
                       </div>
+                    )}
+
+                    {menuSelected === "text" && (
+                      <div className="row">
+                      <div className="col">
+                        <div class="mb-3 form-check">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            checked={settings.textStroke}
+                            onChange={handleCheckboxChangeTextBorder}
+                            id="textStroke"
+                          />
+                          <label
+                            class="form-check-label"
+                            htmlFor="textStroke"
+                          >
+                            Display text border
+                          </label>
+                        </div>
+                      </div>
+                    </div>
                     )}
                   </div>
                 </div>
